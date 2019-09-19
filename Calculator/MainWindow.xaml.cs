@@ -35,6 +35,8 @@ namespace Calculator
         {
             equalButtonPressed = false;
             resultLabel.Content = "0";
+            calculationResult = 0;
+            lastNumber = 0;
         }
 
         private void PlusMinusButton_Click(object sender, RoutedEventArgs e)
