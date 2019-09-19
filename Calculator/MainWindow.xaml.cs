@@ -110,31 +110,6 @@ namespace Calculator
                 resultLabel.Content.ToString() == "/")
                 resultLabel.Content = "";
 
-            /*
-            int selectedValue = 0;
-
-            if (sender == zeroButton)
-                selectedValue = 0;
-            else if (sender == oneButton)
-                selectedValue = 1;
-            else if (sender == twoButton)
-                selectedValue = 2;
-            else if (sender == threeButton)
-                selectedValue = 3;
-            else if (sender == fourRosesButton)
-                selectedValue = 4;
-            else if (sender == fiveButton)
-                selectedValue = 5;
-            else if (sender == sixButton)
-                selectedValue = 6;
-            else if (sender == sevenButton)
-                selectedValue = 7;
-            else if (sender == eightButton)
-                selectedValue = 8;
-            else if (sender == nineButton)
-                selectedValue = 9;
-            */
-
             int selectedValue = int.Parse(((System.Windows.Controls.ContentControl)sender).Content.ToString());
 
             if (resultLabel.Content.ToString() == "0")
