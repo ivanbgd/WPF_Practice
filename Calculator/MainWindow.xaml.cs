@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,10 +50,11 @@ namespace Calculator
         private void PercentButton_Click(object sender, RoutedEventArgs e)
         {
             equalButtonPressed = false;
-            if (double.TryParse(resultLabel.Content.ToString(), out lastNumber))
+            if (double.TryParse(resultLabel.Content.ToString(), out fraction))
             {
-                lastNumber /= 100;
-                resultLabel.Content = lastNumber.ToString();
+                percentButtonPressed = true;
+                fraction = 0.01 * fraction * lastNumber;
+                resultLabel.Content = fraction.ToString();
             }
         }
 
@@ -63,6 +64,12 @@ namespace Calculator
 
             if (double.TryParse(resultLabel.Content.ToString(), out newNumber))
             {
+                if (percentButtonPressed)
+                {
+                    percentButtonPressed = false;
+                    newNumber = fraction;
+                }
+
                 switch (selectedOperator)
                 {
                     case SelectedOperator.Addition:
@@ -151,9 +158,12 @@ namespace Calculator
             }
         }
 
-        double lastNumber, calculationResult;
+        double lastNumber;
+        double calculationResult;
         SelectedOperator selectedOperator;
-        bool equalButtonPressed = false;    // For resetting the display (when true).
+        bool equalButtonPressed = false;    // For resetting the display (when true).        
+        bool percentButtonPressed = false;  // When we press "%", we want to get the desired percentage of the first operand (which is "lastNumber").
+        double fraction;                    // Fraction of the first operand ("lastNumber") after applying the desired percentage.
     }   // public partial class MainWindow : Window
 
     public enum SelectedOperator
@@ -192,4 +202,4 @@ namespace Calculator
             return x / y;
         }
     }
-}
+}   // namespace Calculator
