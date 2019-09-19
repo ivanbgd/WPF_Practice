@@ -50,7 +50,7 @@ namespace Calculator
         private void PercentButton_Click(object sender, RoutedEventArgs e)
         {
             equalButtonPressed = false;
-            if (double.TryParse(resultLabel.Content.ToString(), out fraction))
+            if (double.TryParse(resultLabel.Content.ToString(), out double fraction))
             {
                 percentButtonPressed = true;
                 fraction = 0.01 * fraction * lastNumber;
@@ -67,7 +67,6 @@ namespace Calculator
                 if (percentButtonPressed)
                 {
                     percentButtonPressed = false;
-                    newNumber = fraction;
                 }
 
                 switch (selectedOperator)
@@ -163,7 +162,6 @@ namespace Calculator
         SelectedOperator selectedOperator;
         bool equalButtonPressed = false;    // For resetting the display (when true).        
         bool percentButtonPressed = false;  // When we press "%", we want to get the desired percentage of the first operand (which is "lastNumber").
-        double fraction;                    // Fraction of the first operand ("lastNumber") after applying the desired percentage.
     }   // public partial class MainWindow : Window
 
     public enum SelectedOperator
