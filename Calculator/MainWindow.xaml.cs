@@ -33,64 +33,73 @@ namespace Calculator
 
         private void AcButton_Click(object sender, RoutedEventArgs e)
         {
+            firstOperand = 0D;
+            secondOperand = 0D;
+            calculationResult = 0D;
             equalButtonPressed = false;
+            operationButtonPressed = false;
             resultLabel.Content = "0";
-            calculationResult = 0;
-            lastNumber = 0;
         }
 
         private void PlusMinusButton_Click(object sender, RoutedEventArgs e)
         {
             equalButtonPressed = false;
-            if (double.TryParse(resultLabel.Content.ToString(), out lastNumber))
+            if (double.TryParse(resultLabel.Content.ToString(), out double operand))
             {
-                lastNumber = -lastNumber;
-                resultLabel.Content = lastNumber.ToString();
+                operand = -operand;
+                resultLabel.Content = operand.ToString();
+                if (!operationButtonPressed)
+                {
+                    firstOperand = operand;
+                }
+                else
+                {
+                    secondOperand = operand;
+                }
             }
         }
 
+        // When we press "%", we want to get the desired percentage of the first operand ("firstOperand").
+        // Percent button can only be applied to the second operand.
         private void PercentButton_Click(object sender, RoutedEventArgs e)
         {
             equalButtonPressed = false;
-            if (double.TryParse(resultLabel.Content.ToString(), out double fraction))
+            if (operationButtonPressed)
             {
-                percentButtonPressed = true;
-                fraction = 0.01 * fraction * lastNumber;
-                resultLabel.Content = fraction.ToString();
+                if (double.TryParse(resultLabel.Content.ToString(), out secondOperand))
+                {
+                    secondOperand = 0.01D * secondOperand * firstOperand;
+                    resultLabel.Content = secondOperand.ToString();
+                }
             }
         }
 
         private void EqualButton_Click(object sender, RoutedEventArgs e)
         {
-            double newNumber;
+            equalButtonPressed = true;
+            operationButtonPressed = false;
 
-            if (double.TryParse(resultLabel.Content.ToString(), out newNumber))
+            if (double.TryParse(resultLabel.Content.ToString(), out secondOperand))
             {
-                if (percentButtonPressed)
-                {
-                    percentButtonPressed = false;
-                }
-
                 switch (selectedOperator)
                 {
                     case SelectedOperator.Addition:
-                        calculationResult = SimpleMath.Add(lastNumber, newNumber);
+                        calculationResult = SimpleMath.Add(firstOperand, secondOperand);
                         break;
                     case SelectedOperator.Subtraction:
-                        calculationResult = SimpleMath.Subtract(lastNumber, newNumber);
+                        calculationResult = SimpleMath.Subtract(firstOperand, secondOperand);
                         break;
                     case SelectedOperator.Multiplication:
-                        calculationResult = SimpleMath.Multiply(lastNumber, newNumber);
+                        calculationResult = SimpleMath.Multiply(firstOperand, secondOperand);
                         break;
                     case SelectedOperator.Division:
-                        calculationResult = SimpleMath.Divide(lastNumber, newNumber);
+                        calculationResult = SimpleMath.Divide(firstOperand, secondOperand);
                         break;
                     default:
                         break;
                 }
 
                 resultLabel.Content = calculationResult.ToString();
-                equalButtonPressed = true;
             }
         }
 
@@ -118,6 +127,7 @@ namespace Calculator
                 resultLabel.Content.ToString() == "/")
                 resultLabel.Content = "";
 
+            // "sender" is one of the ten digit buttons.
             int selectedValue = int.Parse(((System.Windows.Controls.ContentControl)sender).Content.ToString());
 
             if (resultLabel.Content.ToString() == "0")
@@ -133,8 +143,9 @@ namespace Calculator
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
             equalButtonPressed = false;
+            operationButtonPressed = true;
 
-            if (double.TryParse(resultLabel.Content.ToString(), out lastNumber))
+            if (double.TryParse(resultLabel.Content.ToString(), out firstOperand))
             {
                 if (sender == addButton)
                 {
@@ -159,11 +170,12 @@ namespace Calculator
             }
         }
 
-        double lastNumber;
+        double firstOperand;
+        double secondOperand;
         double calculationResult;
         SelectedOperator selectedOperator;
-        bool equalButtonPressed = false;    // For resetting the display (when true).        
-        bool percentButtonPressed = false;  // When we press "%", we want to get the desired percentage of the first operand (which is "lastNumber").
+        bool equalButtonPressed = false;        // For resetting the display (when true).        
+        bool operationButtonPressed = false;    // Allows us to differentiate between the first and the second operand.
     }   // public partial class MainWindow : Window
 
     public enum SelectedOperator
