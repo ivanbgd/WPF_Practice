@@ -1,0 +1,52 @@
+﻿<Window x:Class="DesktopContactsApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopContactsApp"
+        xmlns:uc="clr-namespace:DesktopContactsApp.Controls"
+        mc:Ignorable="d"
+        Title="Desktop Contacts App" Height="430" Width="500" Background="Yellow">
+    <StackPanel Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Add New Contact"
+                    Click="AddNewButton_Click"
+                    Background="LightGoldenrodYellow"
+                    Margin="10 0 10 0"
+                    Grid.Column="0"/>
+            <Button Content="View Sorted by Name"
+                    Click="ViewSortedButton_Click"
+                    Background="LightGoldenrodYellow"
+                    Margin="10 0 10 0"                    
+                    Grid.Column="1"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Search"
+                   Grid.Column="0"/>
+            <TextBox x:Name="searchTextBox"
+                     Margin="0,5"
+                     TextChanged="SearchTextBox_TextChanged"
+                     Background="Beige"
+                     Grid.Column="1"/>
+        </Grid>
+        <ListView x:Name="contactsListView"
+                  SelectionChanged="ContactsListView_SelectionChanged"
+                  Height="320"
+                  Margin="0,5,0,0"
+                  Background="GreenYellow">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <uc:ContactControl Contact="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</Window>
