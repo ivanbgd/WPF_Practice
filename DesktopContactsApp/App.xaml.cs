@@ -15,8 +15,7 @@ namespace DesktopContactsApp
     {
         static string databaseName = "Contacts.db";
         //static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        //static string folderPath = System.IO.Directory.GetCurrentDirectory();
-        static string folderPath = "..\\..\\";  // "d:\\OneDrive\\Projects\\Visual Studio\\Udemy WPF Masterclass\\DesktopContactsApp\\DesktopContactsApp\\";
+        static string folderPath = System.IO.Directory.GetCurrentDirectory();        
         public static string databasePath = System.IO.Path.Combine(folderPath, databaseName);
 
         public static bool saveClicked = false; // Has saveButton in NewContactWindow.xaml been clicked (true) or we have canceled the dialog (false).
